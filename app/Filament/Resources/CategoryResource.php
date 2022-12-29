@@ -16,6 +16,7 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -27,7 +28,11 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+
+    protected static ?string $navigationGroup = 'Shop';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -62,9 +67,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable(),
+                TextColumn::make('name')->sortable(),
 
-                Tables\Columns\TextColumn::make('parent')->getStateUsing(function (Model $record): string {
+                TextColumn::make('parent')->getStateUsing(function (Model $record): string {
                     if(!empty(Category::find($record->parent))){
                         return Category::find($record->parent)->name;
                     }else{
@@ -73,7 +78,7 @@ class CategoryResource extends Resource
                 }),
 
                 IconColumn::make('visibility')->boolean()->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime('M d, Y')->sortable(),
+                TextColumn::make('updated_at')->dateTime('M d, Y')->sortable(),
             ])
             ->filters([
                 //
