@@ -17,6 +17,10 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\DatePicker;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
+
+
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
@@ -46,10 +50,22 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                // TextColumn::make('price')->sortable(),
+                TextColumn::make('name')->sortable()->searchable(isIndividual: true),
+                TextColumn::make('email')->sortable()->searchable(isIndividual: true),
+                TextColumn::make('country')->sortable(),
+                TextColumn::make('phone')->sortable(),
+                TextColumn::make('phone')->sortable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('deleted_records')
+                    ->placeholder('Without deleted records')
+                    ->trueLabel('With deleted records')
+                    ->falseLabel('Only deleted records')
+                    ->queries(
+                        true: fn (Builder $query) => $query->withTrashed(),
+                        false: fn (Builder $query) => $query->onlyTrashed(),
+                        blank: fn (Builder $query) => $query->withoutTrashed(),
+                    )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
