@@ -14,6 +14,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\MarkdownEditor;
 
+use App\Models\Customer;
+
 class CommentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'comments';
@@ -27,10 +29,10 @@ class CommentsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255)->columnSpan(2),
-                Select::make('customers')
-                    ->options(['name', 'custom'])->required()->searchable()->columnSpan(2),
+                Select::make('customer_id')
+                    ->relationship('customer', 'name')->required()->searchable()->columnSpan(2),
                 Toggle::make('approved')->label('Approved for public')->default(1)->columnSpan(2),
-                MarkdownEditor::make('Content')->required()->columnSpan(2),
+                MarkdownEditor::make('content')->required()->columnSpan(2),
             ]);
     }
 

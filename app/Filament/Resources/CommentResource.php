@@ -17,6 +17,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\MarkdownEditor;
 
+use App\Models\Customer;
+
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
@@ -33,7 +35,7 @@ class CommentResource extends Resource
                     ->required()
                     ->maxLength(255)->columnSpan(2),
                 Select::make('customers')
-                    ->options(['name', 'custom'])->required()->searchable()->columnSpan(2),
+                    ->options(Customer::all()->pluck('name', 'id'))->required()->searchable()->columnSpan(2),
                 Toggle::make('approved')->label('Approved for public')->default(1)->columnSpan(2),
                 MarkdownEditor::make('Content')->required()->columnSpan(2),
             ]);

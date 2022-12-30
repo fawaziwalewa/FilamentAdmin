@@ -27,6 +27,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
+use Filament\Forms\Components\Repeater;
+
 use Livewire\TemporaryUploadedFile;
 use Str;
 use Closure;
@@ -62,12 +65,16 @@ class ProductResource extends Resource
     
                         Section::make('Images')
                             ->schema([
-                                FileUpLoad::make('images')
-                                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                                        return (string) 'storage/'.Str::random(10).'-'.$file->getClientOriginalName();
-                                    })->image()->maxSize(4096)->label('')->multiple()->maxFiles(4),
-                            ])
-                            ->collapsible(),
+                                Repeater::make('product_images')
+                                    ->relationship('product_images')
+                                    ->schema([
+                                        FileUpLoad::make('image')
+                                        ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                            return (string) 'images/'.Str::random(10).'-'.$file->getClientOriginalName();
+                                        })->image()->maxSize(4096)->label('')->maxFiles(4),
+                                    ]),
+                                    ])->collapsible(),
+                                    
 
                         Section::make('Pricing')
                             ->schema([
@@ -121,7 +128,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
+                ViewColumn::make('Image')->view('tables.columns.product-image-column'),
                 TextColumn::make('name')->searchable(['name','brand', 'price', 'sku'])->sortable(),
                 TextColumn::make('brands')->toggleable()->sortable(),
                 TextColumn::make('price')->sortable(),
