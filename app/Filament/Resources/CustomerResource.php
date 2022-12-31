@@ -18,7 +18,6 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\DatePicker;
 
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TernaryFilter;
 
 
 class CustomerResource extends Resource
@@ -54,18 +53,9 @@ class CustomerResource extends Resource
                 TextColumn::make('email')->sortable()->searchable(isIndividual: true),
                 TextColumn::make('country')->sortable(),
                 TextColumn::make('phone')->sortable(),
-                TextColumn::make('phone')->sortable(),
             ])
             ->filters([
-                TernaryFilter::make('deleted_records')
-                    ->placeholder('Without deleted records')
-                    ->trueLabel('With deleted records')
-                    ->falseLabel('Only deleted records')
-                    ->queries(
-                        true: fn (Builder $query) => $query->withTrashed(),
-                        false: fn (Builder $query) => $query->onlyTrashed(),
-                        blank: fn (Builder $query) => $query->withoutTrashed(),
-                    )
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -78,7 +68,8 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressResource\RelationManagers\AddressesRelationManager::class,
+            PaymentResource\RelationManagers\PaymentsRelationManager::class,
         ];
     }
     

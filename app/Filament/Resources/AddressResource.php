@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CommentResource\Pages;
-use App\Filament\Resources\CommentResource\RelationManagers;
-use App\Models\Comment;
+use App\Filament\Resources\AddressResource\Pages;
+use App\Filament\Resources\AddressResource\RelationManagers;
+use App\Models\Address;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,15 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\MarkdownEditor;
-
-use App\Models\Customer;
-
-class CommentResource extends Resource
+class AddressResource extends Resource
 {
-    protected static ?string $model = Comment::class;
+    protected static ?string $model = Address::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -31,13 +25,7 @@ class CommentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255)->columnSpan(2),
-                Select::make('customer_id')
-                    ->relationship('customer', 'name')->required()->searchable()->columnSpan(2),
-                Toggle::make('approved')->label('Approved for public')->default(1)->columnSpan(2),
-                MarkdownEditor::make('Content')->required()->columnSpan(2),
+                //
             ]);
     }
 
@@ -68,9 +56,9 @@ class CommentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListComments::route('/'),
-            'create' => Pages\CreateComment::route('/create'),
-            'edit' => Pages\EditComment::route('/{record}/edit'),
+            'index' => Pages\ListAddresses::route('/'),
+            'create' => Pages\CreateAddress::route('/create'),
+            'edit' => Pages\EditAddress::route('/{record}/edit'),
         ];
     }    
 }

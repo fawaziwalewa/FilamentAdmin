@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\ProductResource\RelationManagers;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,22 +24,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Forms\Components\Repeater;
 
-use Livewire\TemporaryUploadedFile;
+use App\Models\Category;
 use Str;
 use Closure;
 
-use App\Filament\Resources\ProductResource;
-
-
-class ProductResource extends Resource
+class ProductsRelationManager extends RelationManager
 {
-    protected static ?string $model = Product::class;
+    protected static string $relationship = 'products';
 
-    protected static ?string $navigationIcon = 'heroicon-o-lightning-bolt';
-
-    protected static ?string $navigationGroup = 'Shop';
-
-    protected static ?int $navigationSort = 1;
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
@@ -110,11 +100,7 @@ class ProductResource extends Resource
                             ]),
                         Section::make('Associations')
                             ->schema([
-                                Select::make('brand_id')
-                                    ->relationship('brands', 'name')->multiple()->searchable(),
-
-                                Select::make('categories')
-                                    ->relationship('categories', 'name')->multiple()->required()->searchable(), 
+                                Select::make('categories')->relationship('categories','name')->multiple()->required()->searchable(), 
                             ]),
                         ])->columnSpan(1),
                 ])
@@ -125,7 +111,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                ViewColumn::make('Image')->view('tables.columns.product-image-column'),
+                ViewColumn::make('image')->view('tables.columns.product-image-column'),
                 TextColumn::make('name')->searchable(['name', 'price', 'sku'])->sortable(),
                 TextColumn::make('brands.name')->searchable()->toggleable()->sortable(),
                 TextColumn::make('price')->sortable(),
@@ -136,36 +122,17 @@ class ProductResource extends Resource
                 TextColumn::make('created_at')->label('Published Date')->dateTime('M d, Y')->toggleable()->sortable(),
             ])
             ->filters([
-                
+                //
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-    
-    public static function getRelations(): array
-    {
-        return [
-            CommentResource\RelationManagers\CommentsRelationManager::class,
-        ];
-    }
-    
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
-        ];
-    }
-
-    public static function getWidgets(): array
-    {
-        return [
-            ProductResource\Widgets\ProductStatsOverview::class,
-        ];
-    }
+    }    
 }

@@ -24,7 +24,6 @@ class ProductFactory extends Factory
             'description' => fake()->paragraph(),
             'visibility' => rand(0,1),
             'availability' =>  now(),
-            'categories' =>  array(rand(1,49), rand(1,49), rand(1,49)),
             'price' =>  rand(100,2000),
             'compare_at_price' =>  rand(100,2000),
             'cost_per_item' =>  rand(100,2000),

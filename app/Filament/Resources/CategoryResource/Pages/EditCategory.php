@@ -9,7 +9,6 @@ use Filament\Resources\Pages\EditRecord;
 use Closure;
 use Str;
 use Filament\Forms;
-use Filament\Tables;
 use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Forms\Components\Select;

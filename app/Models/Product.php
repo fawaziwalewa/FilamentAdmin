@@ -8,15 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
 
-    protected $fillable = ['images', 'name', 'slug', 'description', 'visibility', 'availability', 'brands', 'categories', 'price', 'compare_at_price', 'cost_per_item', 'sku', 'barcode', 'quantity', 'security_stock', 'returnable', 'shipped'];
-    
-    protected $casts = [
-        'images' => 'array',
-        'brands' => 'array',
-        'categories' => 'array',
-    ];
+    protected $fillable = ['name', 'slug', 'description', 'visibility', 'availability', 'price', 'compare_at_price', 'cost_per_item', 'sku', 'barcode', 'quantity', 'security_stock', 'returnable', 'shipped'];
 
     public function comments()
     {
@@ -26,5 +19,13 @@ class Product extends Model
     public function product_images()
     {
         return $this->hasMany(productImage::class);
+    }
+
+    public function brands(){
+        return $this->belongsToMany(Brand::class, 'product_brand');
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'product_category');
     }
 }

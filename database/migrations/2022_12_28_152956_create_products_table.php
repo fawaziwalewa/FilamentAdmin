@@ -20,8 +20,6 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->integer('visibility');
             $table->date('availability');
-            $table->json('brands')->nullable();
-            $table->json('categories');
             $table->integer('price');
             $table->integer('compare_at_price');
             $table->integer('cost_per_item');
