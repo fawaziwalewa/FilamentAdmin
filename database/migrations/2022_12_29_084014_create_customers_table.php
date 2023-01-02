@@ -19,11 +19,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
-            $table->string('country')->nullable();
-            $table->integer('address_id')->nullable();
-            $table->integer('payment_id')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

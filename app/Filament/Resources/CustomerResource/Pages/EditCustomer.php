@@ -48,15 +48,18 @@ class EditCustomer extends EditRecord
                         ->schema([
                             Placeholder::make('Created at')
                                 ->content(function(Closure $get){
-                                    $create_at = Customer::find($get('id'))->created_at;
-                                    return Carbon::parse($create_at)->subMinutes(2)->diffForHumans();
+                                   if (!empty(Customer::find($get('id')))) {
+                                        $create_at = Customer::find($get('id'))->created_at;
+                                        return Carbon::parse($create_at)->subMinutes(2)->diffForHumans();
+                                   }
                                 }),
                                 
                             Placeholder::make('Last modified at') ->content(function(Closure $get){
-                                $updated_at = Customer::find($get('id'))->updated_at;
-                                return Carbon::parse($updated_at)->subMinutes(2)->diffForHumans();
+                                if (!empty(Customer::find($get('id')))) {
+                                    $updated_at = Customer::find($get('id'))->updated_at;
+                                    return Carbon::parse($updated_at)->subMinutes(2)->diffForHumans();
+                                }
                             }),
-
                         ])->columnSpan(1),
                 ])
             ]);

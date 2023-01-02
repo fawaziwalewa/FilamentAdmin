@@ -16,19 +16,19 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique()->nullable();
             $table->longText('description')->nullable();
-            $table->integer('visibility');
+            $table->boolean('visibility');
             $table->date('availability');
-            $table->integer('price');
-            $table->integer('compare_at_price');
-            $table->integer('cost_per_item');
-            $table->integer('sku');
-            $table->integer('barcode');
+            $table->decimal('price', 10, 2);
+            $table->decimal('compare_at_price', 10, 2);
+            $table->decimal('cost_per_item', 10, 2);
+            $table->integer('sku')->unique()->nullable();
+            $table->integer('barcode')->unique()->nullable();
             $table->integer('quantity');
             $table->integer('security_stock');
-            $table->integer('returnable')->nullable();
-            $table->integer('shipped')->nullable();
+            $table->boolean('returnable')->nullable();
+            $table->boolean('shipped')->nullable();
             $table->timestamps();
         });
     }

@@ -9,7 +9,30 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'visibility', 'availability', 'price', 'compare_at_price', 'cost_per_item', 'sku', 'barcode', 'quantity', 'security_stock', 'returnable', 'shipped'];
+    protected $casts = [
+        'visibility' => 'boolean',
+        'availability' => 'date',
+        'returnable' => 'boolean',
+        'shipped' => 'boolean',
+    ];
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'price',
+        'compare_at_price',
+        'cost_per_item',
+        'sku',
+        'barcode',
+        'quantity',
+        'security_stock',
+        'visibility',
+        'availability',
+        'returnable',
+        'shipped',
+    ];
+
 
     public function comments()
     {
@@ -22,10 +45,12 @@ class Product extends Model
     }
 
     public function brands(){
-        return $this->belongsToMany(Brand::class, 'product_brand');
+        return $this->belongsToMany(Brand::class,
+            'product_brand');
     }
 
     public function categories(){
-        return $this->belongsToMany(Category::class, 'product_category');
+        return $this->belongsToMany(Category::class,
+            'product_category');
     }
 }

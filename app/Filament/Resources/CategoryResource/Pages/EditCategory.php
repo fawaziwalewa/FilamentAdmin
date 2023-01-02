@@ -63,13 +63,17 @@ class EditCategory extends EditRecord
                         ->schema([
                             Placeholder::make('Created at')
                                 ->content(function(Closure $get){
-                                    $create_at = Category::find($get('id'))->created_at;
-                                    return Carbon::parse($create_at)->subMinutes(2)->diffForHumans();
+                                    if (!empty(Category::find($get('id')))) {
+                                        $create_at = Category::find($get('id'))->created_at;
+                                        return Carbon::parse($create_at)->subMinutes(2)->diffForHumans();
+                                    }
                                 }),
                                 
                             Placeholder::make('Last modified at') ->content(function(Closure $get){
-                                $updated_at = Category::find($get('id'))->updated_at;
-                                return Carbon::parse($updated_at)->subMinutes(2)->diffForHumans();
+                                if (!empty(Category::find($get('id')))) {
+                                    $updated_at = Category::find($get('id'))->updated_at;
+                                    return Carbon::parse($updated_at)->subMinutes(2)->diffForHumans();
+                                }
                             }),
 
                         ])->columnSpan(1),

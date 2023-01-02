@@ -13,9 +13,9 @@ class Customer extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $fillable = ['name', 'email', 'phone', 'birthday', 'country', 'address_id', 'payment_id'];
+    protected $fillable = ['name', 'email', 'phone'];
 
-    protected $dates = [ 'deleted_at' ];
+    protected $dates = [ 'deleted_at', 'birthday'];
 
     public function comments(){
         return $this->hasMany(Comment::class);
