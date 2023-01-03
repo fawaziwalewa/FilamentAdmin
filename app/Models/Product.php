@@ -10,10 +10,10 @@ class Product extends Model
     use HasFactory;
 
     protected $casts = [
-        'visibility' => 'boolean',
+        'visibility'   => 'boolean',
         'availability' => 'date',
-        'returnable' => 'boolean',
-        'shipped' => 'boolean',
+        'returnable'   => 'boolean',
+        'shipped'      => 'boolean',
     ];
 
     protected $fillable = [
@@ -33,7 +33,6 @@ class Product extends Model
         'shipped',
     ];
 
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -44,12 +43,14 @@ class Product extends Model
         return $this->hasMany(productImage::class);
     }
 
-    public function brands(){
+    public function brands()
+    {
         return $this->belongsToMany(Brand::class,
             'product_brand');
     }
 
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(Category::class,
             'product_category');
     }

@@ -12,7 +12,7 @@ class OrderStatsOverview extends BaseWidget
         return [
             Card::make('Orders', 22)->chart([7, 2, 10, 3, 15, 4, 17]),
             Card::make('Open orders', 676),
-            Card::make('Average price', 22)
+            Card::make('Average price', 22),
         ];
     }
 }

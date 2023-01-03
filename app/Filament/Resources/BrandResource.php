@@ -3,25 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BrandResource\Pages;
-use App\Filament\Resources\BrandResource\RelationManagers;
 use App\Models\Brand;
-use Filament\Forms;
+use Closure;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\MarkdownEditor;
-use Closure;
 use Str;
 
 class BrandResource extends Resource
@@ -40,7 +34,7 @@ class BrandResource extends Resource
             ->schema([
                 Card::make()->schema([
                     Grid::make(2)->schema([
-                        TextInput::make('name')->autofocus()->reactive()->afterStateUpdated(function(Closure $set, $state){
+                        TextInput::make('name')->autofocus()->reactive()->afterStateUpdated(function (Closure $set, $state) {
                             $set('slug', Str::slug($state));
                         })->required(),
                         TextInput::make('slug')->required(),
@@ -69,9 +63,9 @@ class BrandResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])->reorderable('name');;
+            ])->reorderable('name');
     }
-    
+
     public static function getRelations(): array
     {
         return [
@@ -79,13 +73,13 @@ class BrandResource extends Resource
             AddressResource\RelationManagers\AddressesRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBrands::route('/'),
+            'index'  => Pages\ListBrands::route('/'),
             'create' => Pages\CreateBrand::route('/create'),
-            'edit' => Pages\EditBrand::route('/{record}/edit'),
+            'edit'   => Pages\EditBrand::route('/{record}/edit'),
         ];
-    }    
+    }
 }

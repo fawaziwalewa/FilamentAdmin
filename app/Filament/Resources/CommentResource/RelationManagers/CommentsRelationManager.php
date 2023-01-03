@@ -3,21 +3,15 @@
 namespace App\Filament\Resources\CommentResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\MarkdownEditor;
-
 use Filament\Tables\Columns\IconColumn;
-
-use App\Models\Customer;
+use Filament\Tables\Columns\TextColumn;
 
 class CommentsRelationManager extends RelationManager
 {
@@ -60,5 +54,5 @@ class CommentsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }

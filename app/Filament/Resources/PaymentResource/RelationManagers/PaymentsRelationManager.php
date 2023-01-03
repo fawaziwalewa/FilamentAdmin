@@ -7,8 +7,6 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PaymentsRelationManager extends RelationManager
 {
@@ -30,7 +28,7 @@ class PaymentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order')->searchable(['order', 'reference','amount'])->sortable(),
+                Tables\Columns\TextColumn::make('order')->searchable(['order', 'reference', 'amount'])->sortable(),
                 Tables\Columns\TextColumn::make('reference')->sortable(),
                 Tables\Columns\TextColumn::make('amount')->sortable(),
                 Tables\Columns\TextColumn::make('provider')->sortable(),
@@ -49,5 +47,5 @@ class PaymentsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }

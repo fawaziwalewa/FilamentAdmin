@@ -10,10 +10,13 @@ class Brand extends Model
     use HasFactory;
     protected $fillable = ['name', 'slug', 'website', 'visibility', 'description'];
 
-    public function products(){
+    public function products()
+    {
         return $this->belongsToMany(Product::class, 'product_brand', 'brand_id', 'product_id');
     }
-    public function addresses(){
+
+    public function addresses()
+    {
         return $this->belongsToMany(Address::class, 'brand_addresses');
     }
 }

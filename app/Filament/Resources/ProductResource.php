@@ -3,35 +3,28 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
-use Filament\Forms\Components\Repeater;
-
 use Livewire\TemporaryUploadedFile;
 use Str;
-use Closure;
-
-use App\Filament\Resources\ProductResource;
 
 class ProductResource extends Resource
 {
@@ -57,19 +50,19 @@ class ProductResource extends Resource
                             Forms\Components\TextInput::make('name')
                                 ->autofocus()
                                 ->reactive()
-                                ->afterStateUpdated(function(Closure $set, $state){
+                                ->afterStateUpdated(function (Closure $set, $state) {
                                     $set('slug', Str::slug($state));
                                 })->required(),
-                    
+
                             Forms\Components\TextInput::make('slug')
                                 ->required()
                                 ->disabled()
                                 ->unique(Product::class, 'slug', ignoreRecord: true),
-                           
+
                             MarkdownEditor::make('description')
                                 ->columnSpan(2),
                         ]),
-    
+
                         Section::make('Images')
                             ->schema([
                                 Repeater::make('product_images')
@@ -77,15 +70,14 @@ class ProductResource extends Resource
                                     ->schema([
                                         FileUpLoad::make('image')
                                             ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                                                return (string) 'images/'.Str::random(10).'-'.$file->getClientOriginalName();
+                                                return (string) 'images/' . Str::random(10) . '-' . $file->getClientOriginalName();
                                             })
                                             ->image()
                                             ->maxSize(4096)
                                             ->label('')
                                             ->maxFiles(4),
                                     ]),
-                                    ])->collapsible(),
-                                    
+                            ])->collapsible(),
 
                         Section::make('Pricing')
                             ->schema([
@@ -135,7 +127,7 @@ class ProductResource extends Resource
                                         ->numeric()
                                         ->rules(['integer', 'min:0'])
                                         ->required()
-                                        ->helperText("The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.")
+                                        ->helperText('The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.')
                                         ->columnSpan(1),
                                 ]),
                             ]),
@@ -147,7 +139,7 @@ class ProductResource extends Resource
                                         ->label('This product can be returned.'),
 
                                     Checkbox::make('shipped')
-                                        ->label('This product will be shipped.')
+                                        ->label('This product will be shipped.'),
                                 ]),
                             ]),
 
@@ -176,10 +168,10 @@ class ProductResource extends Resource
                                     ->relationship('categories', 'name')
                                     ->multiple()
                                     ->required()
-                                    ->searchable(), 
+                                    ->searchable(),
                             ]),
-                        ])->columnSpan(1),
-                ])
+                    ])->columnSpan(1),
+                ]),
             ]);
     }
 
@@ -226,7 +218,7 @@ class ProductResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -235,20 +227,20 @@ class ProductResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             CommentResource\RelationManagers\CommentsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
+            'index'  => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'edit'   => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 

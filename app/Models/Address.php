@@ -10,11 +10,13 @@ class Address extends Model
     use HasFactory;
     protected $fillable = ['street', 'zip', 'city', 'state', 'country'];
 
-    public function customers(){
+    public function customers()
+    {
         return $this->belongsToMany(Customer::class, 'customer_addresses');
     }
 
-    public function brands(){
+    public function brands()
+    {
         return $this->belongsToMany(Brand::class, 'brand_addresses');
     }
 }

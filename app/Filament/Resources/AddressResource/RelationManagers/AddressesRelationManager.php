@@ -2,16 +2,12 @@
 
 namespace App\Filament\Resources\AddressResource\RelationManagers;
 
-use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 
 class AddressesRelationManager extends RelationManager
 {
@@ -32,7 +28,7 @@ class AddressesRelationManager extends RelationManager
                 TextInput::make('state')
                     ->maxLength(255),
                 Select::make('country')
-                    ->options(['India' => 'India', 'Nigeria' => "Nigeria"])->searchable(),
+                    ->options(['India' => 'India', 'Nigeria' => 'Nigeria'])->searchable(),
             ]);
     }
 
@@ -60,5 +56,5 @@ class AddressesRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }

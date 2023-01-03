@@ -3,22 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\DatePicker;
-
 use Filament\Tables\Columns\TextColumn;
-
 
 class CustomerResource extends Resource
 {
@@ -41,7 +35,7 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('phone')->tel(),
                         DatePicker::make('birthday')->displayFormat('M d, Y'),
                     ]),
-                ])
+                ]),
             ]);
     }
 
@@ -64,7 +58,7 @@ class CustomerResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
@@ -72,13 +66,13 @@ class CustomerResource extends Resource
             PaymentResource\RelationManagers\PaymentsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomers::route('/'),
+            'index'  => Pages\ListCustomers::route('/'),
             'create' => Pages\CreateCustomer::route('/create'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
+            'edit'   => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
 }
